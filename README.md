@@ -7,12 +7,13 @@ Ollama & Open Web UI Docker Setup Guide
 This guide provides all the necessary instructions to manage and maintain the Ollama and Open Web UI services using Docker Compose. This setup is configured for GPU acceleration.
 
 All you need is a single configuration file in your project directory.
-docker-compose.yml
+
 
 
 This file defines and configures both the Ollama and Open Web UI services.
 
-# The 'version' attribute is obsolete on newer Docker versions and can be removed.
+docker-compose.yml:
+
 version: '3.8'
 
 services:
