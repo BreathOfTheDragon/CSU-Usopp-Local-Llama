@@ -1,119 +1,168 @@
-CSU-Usopp-Local-Llama
+# CSU-Usopp-Local-Llama 🦙
 
-This guide provides all the necessary instructions to manage and maintain the Ollama and Open Web UI services using Docker Compose. This setup is configured for GPU acceleration.
-Setup & Configuration
+A comprehensive Docker Compose setup for running Ollama and Open Web UI with GPU acceleration. This guide provides all the necessary instructions to manage and maintain your local LLM services.
 
-All commands should be run from the project directory where the docker-compose.yml file is located.
+## 📋 Table of Contents
+- [Setup & Configuration](#-setup--configuration)
+- [Core Commands](#-core-commands)
+- [Model Management](#-model-management)
+- [Maintenance & Troubleshooting](#-maintenance--troubleshooting)
+- [Data Persistence](#-data-persistence)
 
-Based on our setup, the configuration file is located here:
+## 🛠️ Setup & Configuration
 
-(base) exx@usopp-desktop:/home/cjung/Erfan$ cd ollama/
-(base) exx@usopp-desktop:/home/cjung/Erfan/ollama$ ls
-docker-compose.yml
-(base) exx@usopp-desktop:/home/cjung/Erfan/ollama$ 
+All commands should be run from the project directory where the `docker-compose.yml` file is located.
 
-Core Commands
-Starting the Services 🚀
+**Project Structure:**
+```bash
+/home/cjung/Erfan/ollama/
+├── docker-compose.yml
+```
 
-To start both Ollama and Open Web UI in the background:
+## 🚀 Core Commands
 
+### Starting the Services
+Launch both Ollama and Open Web UI in the background:
+
+```bash
 sudo docker compose up -d
+```
 
-After running this, you can access the web interface at http://localhost:3000.
-Stopping the Services 🛑
+After running this command, you can access the web interface at **http://localhost:3000**.
 
-To gracefully stop both services:
+### Stopping the Services 🛑
+Gracefully stop both services:
 
+```bash
 sudo docker compose down
+```
 
-This stops and removes the containers but leaves your data and models untouched.
-Checking the Status 🔍
+> **Note:** This stops and removes the containers but leaves your data and models untouched.
 
-To see the current status of your running services:
+### Checking Service Status 🔍
+View the current status of your running services:
 
+```bash
 sudo docker compose ps
+```
 
-This will show if the containers are Up (running) or Exited (stopped).
-Model Management
+This shows if containers are `Up` (running) or `Exited` (stopped).
 
-You can manage your LLMs either through the command line or the web interface.
-Listing Installed Models
+## 📦 Model Management
 
-To see a list of all the models you have downloaded:
+You can manage your LLMs through either the command line or web interface.
 
+### Listing Installed Models
+See all downloaded models:
+
+```bash
 sudo docker compose exec ollama ollama list
+```
 
-Installing (Pulling) a New Model
-Method 1: From the Web UI (Recommended)
+### Installing (Pulling) a New Model
 
-    Navigate to http://localhost:3000.
+#### Method 1: Web UI (Recommended) 🌐
+1. Navigate to **http://localhost:3000**
+2. Start a new chat
+3. In the "Select a Model" field, type the model name (e.g., `llama3`, `codellama`, `gemma:2b`)
+4. Press Enter - download begins automatically
 
-    Start a new chat.
+#### Method 2: Command Line 💻
+Pull a model directly from terminal:
 
-    In the "Select a Model" field, simply type the name of the model you want (e.g., llama3, codellama, gemma:2b).
-
-    Press Enter. The download will begin automatically.
-
-Method 2: From the Command Line
-
-To pull a model directly from the terminal:
-
+```bash
 # Example: Download the Llama 3 model
 sudo docker compose exec ollama ollama pull llama3
+```
 
-Uninstalling (Removing) a Model
+### Uninstalling (Removing) a Model
+Free up disk space by removing unused models:
 
-To free up disk space by removing a model you no longer need:
-
+```bash
 # Example: Remove the Llama 3 model
 sudo docker compose exec ollama ollama rm llama3
+```
 
-Maintenance & Troubleshooting
-Viewing Service Logs
+## 🔧 Maintenance & Troubleshooting
 
-If something isn't working, the logs are the first place to look.
+### Viewing Service Logs
+Check logs when something isn't working:
 
-# View the logs for the Web UI
+```bash
+# View Web UI logs
 sudo docker compose logs open-webui
 
-# View the logs for Ollama
+# View Ollama logs  
 sudo docker compose logs ollama
 
-# To follow the logs in real-time, add the -f flag
+# Follow logs in real-time
 sudo docker compose logs -f open-webui
+```
 
-Updating the Services 🔄
+### Updating Services 🔄
+Update Ollama and Open Web UI to latest versions:
 
-To update Ollama and Open Web UI to their latest versions:
-
-# 1. Pull the latest images defined in your compose file
+```bash
+# 1. Pull latest images
 sudo docker compose pull
 
-# 2. Recreate the containers with the new images
+# 2. Recreate containers with new images
 sudo docker compose up -d
+```
 
-Accessing a Container's Shell
+### Accessing Container Shell
+Get an interactive shell for advanced debugging:
 
-For advanced debugging, you can get an interactive shell inside a running container:
-
-# Get a bash shell inside the ollama container
+```bash
+# Access ollama container
 sudo docker compose exec ollama bash
+```
 
-Starting Fresh (Full Reset) ⚠️
+### Full Reset ⚠️
+**Warning: This is destructive and cannot be undone!**
 
-If you want to completely reset your entire setup, including deleting all downloaded models and chat history:
+To completely reset your setup (deletes all models and chat history):
 
-Warning: This is a destructive action and cannot be undone.
-
-# This command stops the containers AND deletes the associated volumes.
+```bash
 sudo docker compose down -v
+```
 
-Data Persistence
+## 💾 Data Persistence
 
-This setup uses named Docker Volumes to store your data, which is the recommended practice.
+This setup uses named **Docker Volumes** for data storage:
 
-    ollama volume: Stores all your downloaded LLM models.
+| Volume | Purpose |
+|--------|---------|
+| `ollama` | Stores all downloaded LLM models |
+| `open-webui` | Stores chat history, user settings, and app data |
 
-    open-webui volume: Stores your chat history, user settings, and other application data.
+**Key Benefits:**
+- ✅ Data survives container restarts and updates
+- ✅ Independent of container lifecycle  
+- ✅ Automatically reattached on `docker compose up -d`
+- ✅ Safe to run `docker compose down` without data loss
 
-These volumes are independent of the containers. This means you can stop, remove, or update the containers (docker compose down) without losing any of your important data. The data will be automatically re-attached the next time you run docker compose up -d.
+---
+
+## 🎯 Quick Start
+
+1. **Start the services:**
+   ```bash
+   sudo docker compose up -d
+   ```
+
+2. **Open your browser:** Navigate to http://localhost:3000
+
+3. **Download a model:** Type a model name (e.g., `llama3`) in the chat interface
+
+4. **Start chatting:** Begin using your local LLM!
+
+## 📞 Support
+
+If you encounter issues:
+1. Check the logs: `sudo docker compose logs -f`
+2. Verify service status: `sudo docker compose ps`
+3. Try restarting: `sudo docker compose restart`
+
+---
+*Happy chatting with your local LLM! 🦙✨*
