@@ -1,67 +1,18 @@
-# CSU-Usopp-Local-Llama
-
-
-
-Ollama & Open Web UI Docker Setup Guide
+CSU-Usopp-Local-Llama
 
 This guide provides all the necessary instructions to manage and maintain the Ollama and Open Web UI services using Docker Compose. This setup is configured for GPU acceleration.
+Setup & Configuration
 
-All you need is a single configuration file in your project directory.
+All commands should be run from the project directory where the docker-compose.yml file is located.
 
+Based on our setup, the configuration file is located here:
 
-
-This file defines and configures both the Ollama and Open Web UI services.
-
-docker-compose.yml:
-
-version: '3.8'
-
-services:
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    # This section grants the container access to all NVIDIA GPUs
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    volumes:
-      - ollama:/root/.ollama
-    networks:
-      - ollama-net
-    ports:
-      - "11434:11434"
-    restart: unless-stopped
-
-  open-webui:
-    image: ghcr.io/open-webui/open-webui:cuda
-    container_name: open-webui
-    depends_on:
-      - ollama
-    ports:
-      - "3000:8080"
-    environment:
-      - 'OLLAMA_BASE_URL=http://ollama:11434'
-    volumes:
-      - open-webui:/app/backend/data
-    networks:
-      - ollama-net
-    restart: unless-stopped
-
-volumes:
-  ollama:
-  open-webui:
-
-networks:
-  ollama-net:
-    driver: bridge
+(base) exx@usopp-desktop:/home/cjung/Erfan$ cd ollama/
+(base) exx@usopp-desktop:/home/cjung/Erfan/ollama$ ls
+docker-compose.yml
+(base) exx@usopp-desktop:/home/cjung/Erfan/ollama$
 
 Core Commands
-
-Run all docker compose commands from the same directory as your docker-compose.yml file.
 Starting the Services 🚀
 
 To start both Ollama and Open Web UI in the background:
@@ -75,7 +26,7 @@ To gracefully stop both services:
 
 sudo docker compose down
 
-This stops and removes the containers but leaves your data and models untouched (see Data Persistence).
+This stops and removes the containers but leaves your data and models untouched.
 Checking the Status 🔍
 
 To see the current status of your running services:
