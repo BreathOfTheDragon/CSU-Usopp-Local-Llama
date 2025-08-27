@@ -10,7 +10,7 @@ Based on our setup, the configuration file is located here:
 (base) exx@usopp-desktop:/home/cjung/Erfan$ cd ollama/
 (base) exx@usopp-desktop:/home/cjung/Erfan/ollama$ ls
 docker-compose.yml
-(base) exx@usopp-desktop:/home/cjung/Erfan/ollama$
+(base) exx@usopp-desktop:/home/cjung/Erfan/ollama$ 
 
 Core Commands
 Starting the Services 🚀
