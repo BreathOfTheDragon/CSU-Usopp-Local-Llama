@@ -28,7 +28,7 @@ Launch both Ollama and Open Web UI in the background:
 sudo docker compose up -d
 ```
 
-After running this command, you can access the web interface at **http://localhost:3000**.
+After running this command, you can access the web interface at http://10.1.44.147:3000/
 
 ### Stopping the Services 🛑
 Gracefully stop both services:
@@ -62,7 +62,7 @@ sudo docker compose exec ollama ollama list
 ### Installing (Pulling) a New Model
 
 #### Method 1: Web UI (Recommended) 🌐
-1. Navigate to **http://localhost:3000**
+1. Navigate to **http://10.1.44.147:3000/**
 2. Start a new chat
 3. In the "Select a Model" field, type the model name (e.g., `llama3`, `codellama`, `gemma:2b`)
 4. Press Enter - download begins automatically
@@ -151,7 +151,7 @@ This setup uses named **Docker Volumes** for data storage:
    sudo docker compose up -d
    ```
 
-2. **Open your browser:** Navigate to http://localhost:3000
+2. **Open your browser:** Navigate to http://10.1.44.147:3000/
 
 3. **Download a model:** Type a model name (e.g., `llama3`) in the chat interface
 
